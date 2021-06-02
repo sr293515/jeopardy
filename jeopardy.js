@@ -67,9 +67,9 @@ async function getCategory(catId) {
       randomClues.push(ListOfClues[index])
     }
     // map the randomClues array into a object with the question, answer as shown above
-    let clues = randomClues.map(c => ({
-      question: c.question,
-      answer: c.answer,
+    let clues = randomClues.map(clue => ({
+      question: clue.question,
+      answer: clue.answer,
       showing: null,
     }));  
     // returned object with the title and the clues.
@@ -138,16 +138,12 @@ async function fillTable() {
  * - if currently "answer", ignore click
  * */
 
-function handleClick(event) {
-  if (!clue.showing) {
-    msg = clue.question;
-    clue.showing = "question";
-  } else if (clue.showing === "question") {
-    msg = clue.answer;
-    clue.showing = "answer";
-  } else {
-    return
-  }
+async function handleClick(event) {
+
+  let clue = categories[catId].clues[clueIdx]
+  let display;
+
+  
 
 }
 
@@ -156,14 +152,8 @@ function handleClick(event) {
  * and update the button used to fetch data.
  */
 
-function showLoadingView() {
-
-}
-
 /** Remove the loading spinner and update the button used to fetch data. */
 
-function hideLoadingView() {
-}
 
 /** Start game:
  *
@@ -176,14 +166,14 @@ async function setupAndStart() {
   
   categories = [];
 
-  for (let catId of catIds) {
-    categories.push(await getCategory(catId));
+  for (let categoryId of catIds) {
+    categories.push(await getCategory(categoryId));
     // console.log(category)
   }
   createTable();
   fillTable();
   // console.log(catIds)
-  // console.log(categories)
+  console.log(categories)
 }
 
 
@@ -205,6 +195,12 @@ $(function () { // On page load
   // });
 });
 
+const clickableCell = document.querySelectorAll('.cell')
+let clickHandler = function () {
+  console.log('click just happened')
+}
+
+clickableCell.addEventListener('click', clickHandler)
 
 
 // $(document).ready(function() {
